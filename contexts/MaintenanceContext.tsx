@@ -165,15 +165,15 @@ export const MaintenanceProvider = ({ children }: { children: ReactNode }) => {
     const today = now.toISOString().split('T')[0];
 
     // Use functional updater and only update state if at least one task changes.
-    setTasks((prev) => {
+    setTasks((prev): MaintenanceTask[] => {
       let changed = false;
-      const updated = prev.map((task) => {
+      const updated = prev.map((task): MaintenanceTask => {
         if (
           (task.status === 'scheduled' || task.status === 'in_progress') &&
           task.deadline < today
         ) {
           changed = true;
-          return { ...task, status: 'overdue', updatedAt: new Date() };
+          return { ...task, status: 'overdue' as const, updatedAt: new Date() };
         }
         return task;
       });
